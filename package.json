@@ -1,0 +1,20 @@
+{
+	"name": "randomstring-app",
+	"version": "1.0.0",
+	"main": "index.js",
+	"repository": "git@github.com:willfong/randomstring-app.git",
+	"author": "Will Fong <willfong@hey.com>",
+	"license": "MIT",
+	"dependencies": {
+		"crypto-random-string": "^5.0.0",
+		"express": "^4.18.2",
+		"morgan": "^1.10.0"
+	},
+	"scripts": {
+		"dev": "nodemon index.mjs",
+		"start": "node index.mjs"
+	},
+	"devDependencies": {
+		"nodemon": "^2.0.20"
+	}
+}
