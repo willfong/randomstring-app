@@ -19,6 +19,10 @@ app.get("/:len(\\d{0,})", async (req, res) => {
 	res.send(generate(len > 128 ? 128 : len));
 });
 
+app.get("/alb-health-check", (req, res) => {
+	res.send("ok");
+});
+
 app.use((req, res) => {
 	res.status(404).send("404 - File not found");
 });
