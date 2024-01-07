@@ -12,7 +12,11 @@ const generate = (l) => {
   const b = cryptoRandomString({ length: l, type: "distinguishable" });
   const c = cryptoRandomString({ length: l, type: "ascii-printable" });
   const d = cryptoRandomString({ length: l, type: "url-safe" });
-  return `Random Stuff:\n${a}\n\nEasy to read:\n${b}\n\nPasswords:\n${c}\n\nURL-safe:\n${d}\n\n`;
+  const e = cryptoRandomString({
+    length: l,
+    type: "abcdefghijklmnopqrstuvwxyz",
+  });
+  return `Random Stuff:\n${a}\n\nEasy to read:\n${b}\n\nPasswords:\n${c}\n\nURL-safe:\n${d}\n\nLower-case:\n${e}\n\n`;
 };
 
 app.get("/:len(\\d{0,})", async (req, res) => {
