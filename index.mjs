@@ -14,7 +14,7 @@ const generate = (l) => {
   const d = cryptoRandomString({ length: l, type: "url-safe" });
   const e = cryptoRandomString({
     length: l,
-    type: "abcdefghijklmnopqrstuvwxyz",
+    characters: "abcdefghijklmnopqrstuvwxyz",
   });
   return `Random Stuff:\n${a}\n\nEasy to read:\n${b}\n\nPasswords:\n${c}\n\nURL-safe:\n${d}\n\nLower-case:\n${e}\n\n`;
 };
