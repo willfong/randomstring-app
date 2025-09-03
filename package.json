@@ -5,6 +5,9 @@
 	"repository": "git@github.com:willfong/randomstring-app.git",
 	"author": "Will Fong <willfong@hey.com>",
 	"license": "MIT",
+	"engines": {
+		"node": ">=22.0.0"
+	},
 	"dependencies": {
 		"crypto-random-string": "^5.0.0",
 		"express": "^4.18.2",
@@ -15,6 +18,6 @@
 		"start": "node index.mjs"
 	},
 	"devDependencies": {
-		"nodemon": "^2.0.20"
+		"nodemon": "^3.1.10"
 	}
 }
