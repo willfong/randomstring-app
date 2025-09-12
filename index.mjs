@@ -1,9 +1,19 @@
 import express from "express";
 import cryptoRandomString from "crypto-random-string";
+import pino from "pino";
+import pinoHttp from "pino-http";
 
 const PORT = process.env.PORT ?? 3000;
 
+const logger = pino({
+  level: process.env.LOG_LEVEL || "info",
+  transport: process.env.NODE_ENV === "development" ? {
+    target: "pino-pretty"
+  } : undefined
+});
+
 const app = express();
+app.use(pinoHttp({ logger }));
 
 const generate = (l) => {
   const a = cryptoRandomString({ length: l, type: "alphanumeric" });
