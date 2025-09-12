@@ -1,11 +1,9 @@
 import express from "express";
-import morgan from "morgan";
 import cryptoRandomString from "crypto-random-string";
 
 const PORT = process.env.PORT ?? 3000;
 
 const app = express();
-app.use(morgan("combined"));
 
 const generate = (l) => {
   const a = cryptoRandomString({ length: l, type: "alphanumeric" });
@@ -19,7 +17,11 @@ const generate = (l) => {
   return `Random Stuff:\n${a}\n\nEasy to read:\n${b}\n\nPasswords:\n${c}\n\nURL-safe:\n${d}\n\nLower-case:\n${e}\n\n`;
 };
 
-app.get("/:len(\\d{0,})", async (req, res) => {
+app.get("/", async (req, res) => {
+  res.send(generate(32));
+});
+
+app.get("/:len", async (req, res) => {
   const len = parseInt(req.params.len, 10) || 32;
   res.send(generate(len > 128 ? 128 : len));
 });
