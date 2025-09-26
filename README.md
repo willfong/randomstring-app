@@ -65,14 +65,31 @@ The server will start on `http://localhost:3000` by default.
 
 ## Docker
 
+### Pre-built Image
+The application is available as a pre-built ARM64 image on Docker Hub:
+```bash
+# Pull and run the latest image
+docker run -p 3000:3000 wfong/randomstring-app:latest
+```
+
 ### Build and run with Docker
 ```bash
-# Build the image
+# Build the image locally
 docker build -t randomstring-app .
+
+# Build for ARM64 architecture
+docker buildx build --platform linux/arm64 -t randomstring-app .
 
 # Run the container
 docker run -p 3000:3000 randomstring-app
 ```
+
+### Docker Image Features
+- **Multi-stage build** for minimal image size
+- **ARM64 optimized** for modern architectures
+- **Security hardened** with non-root user
+- **Memory optimized** with 64MB heap limit and aggressive GC
+- **Alpine Linux** base for reduced attack surface
 
 ### Using Docker Compose
 Create a `docker-compose.yml` file:
