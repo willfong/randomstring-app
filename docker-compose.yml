@@ -1,0 +1,9 @@
+services:
+  app:
+    build: .
+    container_name: randomstring-app
+    restart: unless-stopped
+    ports:
+      - "5002:3000"
+    mem_limit: 256m
+    mem_reservation: 128m
