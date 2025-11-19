@@ -15,9 +15,16 @@
 	},
 	"scripts": {
 		"dev": "nodemon index.mjs",
-		"start": "node index.mjs"
+		"start": "node index.mjs",
+		"deploy": "DOCKER_HOST=ssh://dell docker compose up --build --remove-orphans -d",
+		"build:css": "npx @tailwindcss/cli -i ./src/static/css/input.css -o ./src/static/css/output.css --minify",
+		"watch:css": "npx @tailwindcss/cli -i ./src/static/css/input.css -o ./src/static/css/output.css --watch"
 	},
 	"devDependencies": {
-		"nodemon": "^3.1.10"
+		"@tailwindcss/cli": "^4.1.17",
+		"autoprefixer": "^10.4.22",
+		"nodemon": "^3.1.10",
+		"postcss": "^8.5.6",
+		"tailwindcss": "^4.1.17"
 	}
 }

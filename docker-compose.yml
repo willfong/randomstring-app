@@ -1,9 +1,29 @@
 services:
   app:
-    build: .
-    container_name: randomstring-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: randomstring
     restart: unless-stopped
     ports:
-      - "5002:3000"
+      - "5002:8000"
+    environment:
+      - PORT=8000
+      - LOG_LEVEL=INFO
+      - LOG_FORMAT=json
+      - RATE_LIMIT_ENABLED=true
+      - SECURITY_HEADERS_ENABLED=true
     mem_limit: 256m
     mem_reservation: 128m
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health').read()"]
+      interval: 30s
+      timeout: 3s
+      start_period: 10s
+      retries: 3
+    networks:
+      - randomstring-network
+
+networks:
+  randomstring-network:
+    driver: bridge

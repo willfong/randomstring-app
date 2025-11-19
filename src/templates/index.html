@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random String Generator</title>
+    <link rel="stylesheet" href="/static/css/output.css">
+</head>
+<body class="h-full bg-stone-950">
+    <div class="min-h-full flex items-center justify-center p-4 sm:p-6 lg:p-8">
+        <div class="max-w-4xl w-full">
+            <!-- Header -->
+            <div class="text-center mb-8">
+                <h1 class="text-4xl font-bold text-amber-500 mb-2">Random String Generator</h1>
+                <p class="text-stone-400">Generate cryptographically secure random strings in multiple formats</p>
+            </div>
+
+            <!-- Main Card -->
+            <div class="bg-stone-900 rounded-lg shadow-xl p-6 sm:p-8 border border-stone-800">
+                <!-- Length Control -->
+                <div class="mb-6">
+                    <div class="flex items-center justify-between mb-2">
+                        <label for="length" class="text-sm font-medium text-stone-300">String Length</label>
+                        <span id="lengthValue" class="text-sm font-mono text-amber-500">{{ length }}</span>
+                    </div>
+                    <input
+                        type="range"
+                        id="length"
+                        min="1"
+                        max="128"
+                        value="{{ length }}"
+                        class="w-full h-2 bg-stone-700 rounded-lg appearance-none cursor-pointer accent-amber-500"
+                        oninput="updateLengthDisplay(this.value)"
+                    >
+                    <div class="flex justify-between text-xs text-stone-500 mt-1">
+                        <span>1</span>
+                        <span>128</span>
+                    </div>
+                </div>
+
+                <!-- Generate Button -->
+                <button
+                    onclick="generateStrings()"
+                    class="w-full bg-amber-500 hover:bg-amber-600 text-stone-950 font-semibold py-3 px-6 rounded-lg transition-colors duration-200 mb-6 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 focus:ring-offset-stone-900"
+                >
+                    Generate New Strings
+                </button>
+
+                <!-- String Types Grid -->
+                <div class="space-y-4">
+                    <!-- Alphanumeric -->
+                    <div class="bg-stone-800 rounded-lg p-4 border border-stone-700">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-sm font-semibold text-amber-500">Alphanumeric</h3>
+                        </div>
+                        <p class="text-xs text-stone-500 mb-2">a-z, A-Z, 0-9 (general purpose)</p>
+                        <div class="relative group cursor-pointer bg-stone-950 rounded flex items-center" onclick="copyToClipboard('alphanumeric')" title="Click to copy">
+                            <code id="alphanumeric" class="flex-1 text-stone-200 p-3 font-mono text-sm break-all group-hover:text-stone-100 transition-colors">{{ strings.alphanumeric }}</code>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mx-3 text-stone-400 group-hover:text-amber-500 transition-colors flex-shrink-0 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Distinguishable -->
+                    <div class="bg-stone-800 rounded-lg p-4 border border-stone-700">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-sm font-semibold text-amber-500">Distinguishable</h3>
+                        </div>
+                        <p class="text-xs text-stone-500 mb-2">Excludes confusing characters (0/O, 1/l/I)</p>
+                        <div class="relative group cursor-pointer bg-stone-950 rounded flex items-center" onclick="copyToClipboard('distinguishable')" title="Click to copy">
+                            <code id="distinguishable" class="flex-1 text-stone-200 p-3 font-mono text-sm break-all group-hover:text-stone-100 transition-colors">{{ strings.distinguishable }}</code>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mx-3 text-stone-400 group-hover:text-amber-500 transition-colors flex-shrink-0 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="bg-stone-800 rounded-lg p-4 border border-stone-700">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-sm font-semibold text-amber-500">Password</h3>
+                        </div>
+                        <p class="text-xs text-stone-500 mb-2">Letters, digits, safe punctuation (shell-safe)</p>
+                        <div class="relative group cursor-pointer bg-stone-950 rounded flex items-center" onclick="copyToClipboard('password')" title="Click to copy">
+                            <code id="password" class="flex-1 text-stone-200 p-3 font-mono text-sm break-all group-hover:text-stone-100 transition-colors">{{ strings.password }}</code>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mx-3 text-stone-400 group-hover:text-amber-500 transition-colors flex-shrink-0 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- URL-safe -->
+                    <div class="bg-stone-800 rounded-lg p-4 border border-stone-700">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-sm font-semibold text-amber-500">URL-safe</h3>
+                        </div>
+                        <p class="text-xs text-stone-500 mb-2">Safe for URLs without encoding</p>
+                        <div class="relative group cursor-pointer bg-stone-950 rounded flex items-center" onclick="copyToClipboard('urlsafe')" title="Click to copy">
+                            <code id="urlsafe" class="flex-1 text-stone-200 p-3 font-mono text-sm break-all group-hover:text-stone-100 transition-colors">{{ strings.urlsafe }}</code>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mx-3 text-stone-400 group-hover:text-amber-500 transition-colors flex-shrink-0 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Lowercase -->
+                    <div class="bg-stone-800 rounded-lg p-4 border border-stone-700">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-sm font-semibold text-amber-500">Lowercase</h3>
+                        </div>
+                        <p class="text-xs text-stone-500 mb-2">Lowercase letters only (a-z)</p>
+                        <div class="relative group cursor-pointer bg-stone-950 rounded flex items-center" onclick="copyToClipboard('lowercase')" title="Click to copy">
+                            <code id="lowercase" class="flex-1 text-stone-200 p-3 font-mono text-sm break-all group-hover:text-stone-100 transition-colors">{{ strings.lowercase }}</code>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mx-3 text-stone-400 group-hover:text-amber-500 transition-colors flex-shrink-0 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <div class="mt-6 pt-6 border-t border-stone-800 text-center">
+                    <p class="text-stone-400 text-sm">
+                        All strings are generated using cryptographically secure random number generation.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Bottom Footer -->
+            <div class="mt-8 pt-4 text-center">
+                <p class="text-stone-500 text-sm">
+                    Powered by a ball of yarn that lost a fight with a cat. - <a href="https://vcraft.sg" target="_blank" rel="noopener noreferrer" class="text-amber-500 hover:text-amber-400 transition-colors">vcraft.sg</a>
+                </p>
+            </div>
+
+            <!-- Notification Toast -->
+            <div id="toast" class="fixed top-4 right-4 bg-amber-500 text-stone-950 px-4 py-2 rounded-lg shadow-lg transform translate-x-full transition-transform duration-300">
+                <span id="toastMessage">Copied to clipboard!</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function updateLengthDisplay(value) {
+            document.getElementById('lengthValue').textContent = value;
+        }
+
+        async function generateStrings() {
+            const length = document.getElementById('length').value;
+            const button = event.target;
+
+            // Disable button and show loading state
+            button.disabled = true;
+            button.textContent = 'Generating...';
+
+            try {
+                const response = await fetch(`/api/v1/random?length=${length}`);
+                const data = await response.json();
+
+                // Update all string displays
+                document.getElementById('alphanumeric').textContent = data.strings.alphanumeric;
+                document.getElementById('distinguishable').textContent = data.strings.distinguishable;
+                document.getElementById('password').textContent = data.strings.password;
+                document.getElementById('urlsafe').textContent = data.strings.urlsafe;
+                document.getElementById('lowercase').textContent = data.strings.lowercase;
+
+            } catch (error) {
+                console.error('Error generating strings:', error);
+                showToast('Error generating strings');
+            } finally {
+                // Re-enable button
+                button.disabled = false;
+                button.textContent = 'Generate New Strings';
+            }
+        }
+
+        function copyToClipboard(elementId) {
+            const text = document.getElementById(elementId).textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('Copied to clipboard!');
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+                showToast('Failed to copy');
+            });
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+
+            toastMessage.textContent = message;
+            toast.classList.remove('translate-x-full');
+
+            setTimeout(() => {
+                toast.classList.add('translate-x-full');
+            }, 2000);
+        }
+    </script>
+</body>
+</html>

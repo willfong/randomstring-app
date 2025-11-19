@@ -1,11 +1,71 @@
-node_modules
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+ENV/
+env/
+pip-log.txt
+pip-delete-this-directory.txt
+.pytest_cache/
+.coverage
+htmlcov/
+*.cover
+.hypothesis/
+*.egg-info/
+dist/
+build/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Documentation (README.md is needed by pyproject.toml during build)
+docs/
+
+# CI/CD
+.github/
+.gitlab-ci.yml
+
+# Docker
+Dockerfile*
+.dockerignore
+docker-compose*.yml
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Test files
+tests/
+*.test.py
+test_*.py
+
+# Node (needed for Tailwind CSS build)
+node_modules/
 npm-debug.log*
 .npm
 .nyc_output
-.git
-.gitignore
-README.md
-.env
-.DS_Store
-Dockerfile
-.dockerignore
+# package.json and package-lock.json are needed for css-builder stage
+# package.json
+# package-lock.json
+index.mjs
+
+# Other
+.pre-commit-config.yaml
